@@ -290,7 +290,6 @@ async def account_login(bot: Client, m: Message):
         await m.reply_text(e)
     await m.reply_text("**۞ 𝙰𝚁𝙸𝙶𝙰𝚃𝙾 ۞\n𝐈'𝐌 𝐃𝐎𝐍𝐄.☺**")
 
-from keep_alive import keep_alive
 
 if __name__ == "__main__":
     keep_alive()

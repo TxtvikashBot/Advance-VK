@@ -1,7 +1,6 @@
 ffmpeg
 m3u8
 cloudscraper
-saini
 bs4
 wget
 async-lru==2.0.2

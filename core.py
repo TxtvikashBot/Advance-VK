@@ -9,6 +9,7 @@ import requests
 import tgcrypto
 import subprocess
 import concurrent.futures
+import core as helper
 
 from utils import progress_bar
 from vars import CHANNEL_ID

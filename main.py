@@ -46,6 +46,10 @@ keyboard = InlineKeyboardMarkup(
     ]
 )
 
+@bot.on_message(filters.command(["start"]))
+async def start_handler(bot: Client, m: Message):
+    await m.reply_text("Welcome! I'm your course extractor bot. Send me a .txt file using /ajpython to begin.")
+
 
 @bot.on_message(filters.command("addauth") & filters.private)
 async def add_auth_user(client: Client, message: Message):

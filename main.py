@@ -24,11 +24,19 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 OWNER = int(os.environ.get("OWNER", "1304973931"))
 
-bot = Client(
-    "bot",
-    api_id=api_id,
-    api_hash=api_hash,
-    bot_token=bot_token)
+from pyrogram import Client
+from os import getenv
+
+API_ID = int(getenv("API_ID"))
+API_HASH = getenv("API_HASH")
+BOT_TOKEN = getenv("BOT_TOKEN")
+
+app = Client(
+    "my_bot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN
+)
 
 
 @bot.on_message(filters.command(["start"]))

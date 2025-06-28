@@ -153,7 +153,7 @@ async def upload(bot: Client, m: Message):
                     async with session.get(url, headers={'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9', 'Accept-Language': 'en-US,en;q=0.9', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'Pragma': 'no-cache', 'Referer': 'http://www.visionias.in/', 'Sec-Fetch-Dest': 'iframe', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'cross-site', 'Upgrade-Insecure-Requests': '1', 'User-Agent': 'Mozilla/5.0 (Linux; Android 12; RMX2121) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Mobile Safari/537.36', 'sec-ch-ua': '"Chromium";v="107", "Not=A?Brand";v="24"', 'sec-ch-ua-mobile': '?1', 'sec-ch-ua-platform': '"Android"',}) as resp:
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
-            elif "classplusapp" in url:
+    elif "classplusapp" in url:
     classplus_token = os.getenv("CLASSPLUS_TOKEN")
     if not classplus_token:
         await m.reply_text("❌ CLASSPLUS_TOKEN is not set in your environment variables.")
@@ -194,6 +194,12 @@ async def upload(bot: Client, m: Message):
                     await m.reply_text(f"❌ Failed to fetch signed URL (videos.classplusapp):\n\n{resp2.text}")
                     return
         else:
+            await m.reply_text(f"❌ Failed to fetch signed URL:\n\n{response.text}")
+            return
+    except Exception as e:
+        await m.reply_text(f"❌ Error while signing URL:\n{str(e)}")
+        return
+        
             await m.reply_text(f"❌ Failed to fetch signed URL:\n\n{response.text}")
             return
     except Exception as e:

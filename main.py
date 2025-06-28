@@ -206,6 +206,9 @@ async def upload(bot: Client, m: Message):
                     Show = f"**⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »**\n\n**📝Name »** `{name}\n❄Quality » {raw_text2}`\n\n**🔗URL »** `{url}`"
                     prog = await m.reply_text(Show)
                     res_file = await helper.download_video(url, cmd, name)
+                    if not os.path.exists(f"{name}.mp4"):
+                await m.reply_text(f"❌ Download Failed: `{name}.mp4` not found.\nURL: {url}")
+                    continue
                     filename = res_file
                     await prog.delete(True)
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)

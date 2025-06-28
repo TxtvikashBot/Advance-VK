@@ -155,7 +155,10 @@ async def upload(bot: Client, m: Message):
              id =  url.split("/")[-2]
              url =  "https://d26g5bnklkwsh4.cloudfront.net/" + id + "/master.m3u8"
 
-            name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
+            import string
+            raw_title = links[i][0].strip()
+            safe_title = ''.join(char if char in string.ascii_letters + string.digits + "-_ " else '_' for char in raw_title)
+            name = f'{str(count).zfill(3)}_{safe_title.replace(" ", "_")}'
             safe_name = re.sub(r'[^a-zA-Z0-9_-]', '_', name1[:60])
             name = f'{str(count).zfill(3)}_{safe_name}'
 

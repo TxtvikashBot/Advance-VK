@@ -154,12 +154,12 @@ async def upload(bot: Client, m: Message):
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
         elif "classplusapp" in url:
-        classplus_token = os.getenv("CLASSPLUS_TOKEN")
+            classplus_token = os.getenv("CLASSPLUS_TOKEN")
     if not classplus_token:
         await m.reply_text("❌ CLASSPLUS_TOKEN is not set in your environment variables.")
         return
 
-    headers = {
+        headers = {
         "Host": "api.classplusapp.com",
         "x-access-token": classplus_token,
         "user-agent": "Mobile-Android",

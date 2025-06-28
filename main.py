@@ -154,37 +154,51 @@ async def upload(bot: Client, m: Message):
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
             elif "classplusapp" in url:
-                classplus_token = os.getenv("CLASSPLUS_TOKEN")
-            if not classplus_token:
-                await m.reply_text("❌ CLASSPLUS_TOKEN is not set in your environment variables.")
-                return
+    classplus_token = os.getenv("CLASSPLUS_TOKEN")
+    if not classplus_token:
+        await m.reply_text("❌ CLASSPLUS_TOKEN is not set in your environment variables.")
+        return
 
-            headers = {
-                "Host": "api.classplusapp.com",
-                "x-access-token": classplus_token,
-                "user-agent": "Mobile-Android",
-                "app-version": "1.4.37.1",
-                "api-version": "18",
-                "device-id": "5d0d17ac8b3c9f51",
-                "device-details": "2848b866799971ca_2848b8667a33216c_SDK-30",
-                "accept-encoding": "gzip"
-           }
+    headers = {
+        "Host": "api.classplusapp.com",
+        "x-access-token": classplus_token,
+        "user-agent": "Mobile-Android",
+        "app-version": "1.4.37.1",
+        "api-version": "18",
+        "device-id": "5d0d17ac8b3c9f51",
+        "device-details": "2848b866799971ca_2848b8667a33216c_SDK-30",
+        "accept-encoding": "gzip"
+    }
 
-            params = {
-               "url": url
-           }
+    params = {
+        "url": url
+    }
 
-            try:
-                response = requests.get(
-                   "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
-                   headers=headers,
-                   params=params
+    try:
+        response = requests.get(
+            "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
+            headers=headers,
+            params=params
+        )
+        if response.status_code == 200 and "url" in response.json():
+            url = response.json()["url"]
+            # yahan par check karo agar url me 'videos.classplusapp' hai to naya request bhejo
+            if "videos.classplusapp" in url:
+                resp2 = requests.get(
+                    f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}',
+                    headers={'x-access-token': classplus_token}
                 )
-                if response.status_code == 200 and "url" in response.json():
-                    url = response.json()["url"]
+                if resp2.status_code == 200 and "url" in resp2.json():
+                    url = resp2.json()["url"]
                 else:
-                    await m.reply_text(f"❌ Failed to fetch signed URL:\n\n{response.text}")
+                    await m.reply_text(f"❌ Failed to fetch signed URL (videos.classplusapp):\n\n{resp2.text}")
                     return
+        else:
+            await m.reply_text(f"❌ Failed to fetch signed URL:\n\n{response.text}")
+            return
+    except Exception as e:
+        await m.reply_text(f"❌ Error while signing URL:\n{str(e)}")
+        return
             except Exception as e:
                 await m.reply_text(f"❌ Error while signing URL:\n{str(e)}")
                 return
@@ -193,9 +207,7 @@ async def upload(bot: Client, m: Message):
                          f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', 
                          headers={'x-access-token': 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgzNjkyMTIsIm9yZ0lkIjoyNjA1LCJ0eXBlIjoxLCJtb2JpbGUiOiI5MTcwODI3NzQyODkiLCJuYW1lIjoiQWNlIiwiZW1haWwiOm51bGwsImlzRmlyc3RMb2dpbiI6dHJ1ZSwiZGVmYXVsdExhbmd1YWdlIjpudWxsLCJjb3VudHJ5Q29kZSI6IklOIiwiaXNJbnRlcm5hdGlvbmFsIjowLCJpYXQiOjE2NDMyODE4NzcsImV4cCI6MTY0Mzg4NjY3N30.hM33P2ai6ivdzxPPfm01LAd4JWv-vnrSxGXqvCirCSpUfhhofpeqyeHPxtstXwe0'}
                      ).json()['url']
-                  else:
-                    await m.reply_text(f"❌ Failed to fetch signed URL:\n\n{response.text}")
-                    return   
+                
 
                  elif '/master.mpd' in url:
                      id =  url.split("/")[-2]

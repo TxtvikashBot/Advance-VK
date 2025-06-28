@@ -156,7 +156,8 @@ async def upload(bot: Client, m: Message):
              url =  "https://d26g5bnklkwsh4.cloudfront.net/" + id + "/master.m3u8"
 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
-            name = f'{str(count).zfill(3)}) {name1[:60]}'
+            safe_name = re.sub(r'[^a-zA-Z0-9_-]', '_', name1[:60])
+            name = f'{str(count).zfill(3)}_{safe_name}'
 
             if "youtu" in url:
                 ytf = f"b[height<={raw_text2}][ext=mp4]/bv[height<={raw_text2}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]"
@@ -176,7 +177,8 @@ async def upload(bot: Client, m: Message):
                     try:
                         ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
-                        count+=1
+                        count+=1 
+                        print(f"Done downloading {name}")
                         os.remove(ka)
                         time.sleep(1)
                     except FloodWait as e:
@@ -191,6 +193,7 @@ async def upload(bot: Client, m: Message):
                         os.system(download_cmd)
                         copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
                         count += 1
+                        print(f"Done downloading {name}")
                         os.remove(f'{name}.pdf')
                     except FloodWait as e:
                         await m.reply_text(str(e))
@@ -204,6 +207,7 @@ async def upload(bot: Client, m: Message):
                     await prog.delete(True)
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                     count += 1
+                    print(f"Done downloading {name}")
                     time.sleep(1)
 
             except Exception as e:

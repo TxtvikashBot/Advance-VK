@@ -182,7 +182,8 @@ async def upload(bot: Client, m: Message):
         )
         if response.status_code == 200 and "url" in response.json():
             url = response.json()["url"]
-            # yahan par check karo agar url me 'videos.classplusapp' hai to naya request bhejo
+
+            # Check if returned URL again contains classplus domain
             if "videos.classplusapp" in url:
                 resp2 = requests.get(
                     f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}',
@@ -193,6 +194,13 @@ async def upload(bot: Client, m: Message):
                 else:
                     await m.reply_text(f"❌ Failed to fetch signed URL (videos.classplusapp):\n\n{resp2.text}")
                     return
+        else:
+            await m.reply_text(f"❌ Failed to fetch signed URL:\n\n{response.text}")
+            return
+
+    except Exception as e:
+        await m.reply_text(f"⚠️ Error while processing Classplus URL:\n\n{str(e)}")
+        return
         else:
             await m.reply_text(f"❌ Failed to fetch signed URL:\n\n{response.text}")
             return

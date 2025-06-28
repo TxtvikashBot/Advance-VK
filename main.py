@@ -53,12 +53,12 @@ async def restart_handler(_, m):
 async def upload(bot: Client, m: Message):
     editable = await m.reply_text('𝕤ᴇɴᴅ ᴛxᴛ ғɪʟᴇ ⚡️')
     input: Message = await bot.listen(editable.chat.id)
-
-if input.document or input.video or input.audio or input.photo:
-    x = await input.download()
-else:
-    await m.reply_text("❌ File nahi mili! Please .txt ya .pdf file bhejiye.")
-    return
+   
+    if input.document or input.video or input.audio or input.photo:
+        x = await input.download()
+    else:
+        await m.reply_text("❌ File nahi mili! Please .txt ya .pdf file bhejiye.")
+        return
     
     await input.delete(True)
 

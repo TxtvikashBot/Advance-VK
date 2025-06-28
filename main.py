@@ -37,6 +37,25 @@ bot = Client(
     bot_token=BOT_TOKEN
 )
 
+from pyrogram import Client, filters
+import os
+
+# Load credentials from env
+API_ID = int(os.getenv("API_ID"))
+API_HASH = os.getenv("API_HASH")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+# Define Telegram app
+app = Client("drm_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+
+# Command Handler
+@app.on_message(filters.command("drm") & filters.private)
+async def handle_drm(client, message):
+    await message.reply("✅ DRM command received!")
+
+# Run the bot
+app.run()
+
 @bot.on_message(filters.command(["start"]))
 async def start(bot: Client, m: Message):
     await m.reply_text(f"<b>Hello {m.from_user.mention} 👋\n\n I Am A Bot For Download Links From Your **.TXT** File And Then Upload That File On Telegram So Basically If You Want To Use Me First Send Me /upload Command And Then Follow Few Steps..\n\nUse /stop to stop any ongoing task.</b>")

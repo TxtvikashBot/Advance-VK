@@ -11,7 +11,7 @@ import asyncio
 import aiohttp
 import requests
 import subprocess
-from core import handle_upload
+
 import core as helper
 from utils import progress_bar
 from vars import API_ID, API_HASH, BOT_TOKEN

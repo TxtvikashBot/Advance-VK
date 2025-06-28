@@ -154,12 +154,12 @@ async def upload(bot: Client, m: Message):
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
         elif "classplusapp" in url:
-            classplus_token = os.getenv("CLASSPLUS_TOKEN")
+       classplus_token = os.getenv("CLASSPLUS_TOKEN")
     if not classplus_token:
         await m.reply_text("❌ CLASSPLUS_TOKEN is not set in your environment variables.")
         return
 
-        headers = {
+    headers = {
         "Host": "api.classplusapp.com",
         "x-access-token": classplus_token,
         "user-agent": "Mobile-Android",
@@ -173,22 +173,6 @@ async def upload(bot: Client, m: Message):
     params = {
         "url": url
     }
-
-    try:
-        response = requests.get(
-            "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
-            headers=headers,
-            params=params
-        )
-        if response.status_code == 200 and "url" in response.json():
-            url = response.json()["url"]
-
-            # Check if returned URL again contains classplus domain
-            if "videos.classplusapp" in url:
-                resp2 = requests.get(
-                    f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}',
-                    headers={'x-access-token': classplus_token}
-                )
                 if resp2.status_code == 200 and "url" in resp2.json():
                     url = resp2.json()["url"]
                 else:

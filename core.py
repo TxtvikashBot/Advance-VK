@@ -229,12 +229,12 @@ async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
     os.remove(ka)
     time.sleep(3) 
 
-await send_vid(bot, m, caption, filename, "no", name, prog)
 async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
     subprocess.run(f'ffmpeg -i "{filename}" -ss 00:01:00 -vframes 1 "{filename}.jpg"', shell=True)
     await prog.delete (True)
     reply = await m.reply_text(f"**𝔘𝔭𝔩𝔬𝔞𝔡𝔦𝔫𝔤** 🚀\n`{name}` \n\n**‡ 𝕮𝖗𝖊𝖆𝖙𝖊𝖉 𝕭𝖞: 𝗔𝗝 𝗣𝗬𝗧𝗛𝗢𝗡 💀 ‡**")
-    try:
+
+   try:
         if thumb == "no":
             thumbnail = f"{filename}.jpg"
         else:

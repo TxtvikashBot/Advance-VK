@@ -26,11 +26,15 @@ from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
+from pyrogram import Client
+from vars import API_ID, API_HASH, BOT_TOKEN
+
 bot = Client(
-    "bot",
+    "my_bot",
     api_id=API_ID,
     api_hash=API_HASH,
-    bot_token=BOT_TOKEN)
+    bot_token=BOT_TOKEN
+)
 
 
 @bot.on_message(filters.command(["start"]))
@@ -212,5 +216,7 @@ async def upload(bot: Client, m: Message):
         await m.reply_text(e)
     await m.reply_text("**𝔻ᴏɴᴇ 𝔹ᴏ𝕤𝕤😎**")
 
-
-bot.run()
+if __name__ == "__main__":
+    from keep_alive import keep_alive
+    keep_alive()  # starts flask server at port 8080
+    bot.run()     # starts telegram bot

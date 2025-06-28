@@ -48,6 +48,21 @@ async def restart_handler(_, m):
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
+@app.on_message(filters.command("drm") & filters.private)
+async def drm_handler(bot: Client, m: Message):
+    await m.reply_text("🧾 Send the video URL:")
+    url_msg = await bot.listen(m.chat.id)
+    url = url_msg.text.strip()
+
+    await m.reply_text("📝 Send the video name (file name):")
+    name_msg = await bot.listen(m.chat.id)
+    name = name_msg.text.strip()
+
+    caption = f"🎯 Uploaded: `{name}`"
+    prog = await m.reply_text("⏳ Downloading & Uploading...")
+
+    # ✅ Yeh hai tera final call
+    await handle_upload(bot, m, url, name, caption, prog)
 
 @bot.on_message(filters.command(["upload"]))
 async def upload(bot: Client, m: Message):

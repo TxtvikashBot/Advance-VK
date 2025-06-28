@@ -36,13 +36,28 @@ async def subscribe(app, message):
       except Exception:
          await message.reply_text("Something Went Wrong. Contact us @AJ_PYTHON_15...")
          return 1
+def safe_float(value):
+    try:
+        # decode if it's a bytes object
+        if isinstance(value, bytes):
+            value = value.decode().strip()
+        else:
+            value = str(value).strip()
+        
+        # handle N/A or error values
+        if value.lower() in ['n/a', 'no such file or directory', '']:
+            return 0.0
+        return float(value)
+    except:
+        return 0.0
+         
 def duration(filename):
     result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
                              "format=duration", "-of",
                              "default=noprint_wrappers=1:nokey=1", filename],
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT)
-    return float(result.stdout)
+    return safe_float(result.stdout)
     
 def exec(cmd):
         process = subprocess.run(cmd, stdout=subprocess.PIPE,stderr=subprocess.PIPE)

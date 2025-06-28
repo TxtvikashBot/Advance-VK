@@ -19,7 +19,12 @@ from pyrogram.types import Message
 async def gen_link(app,chat_id):
    link = await app.export_chat_invite_link(chat_id)
    return link
-
+async def handle_upload(bot, m, url, name, caption, prog):
+    url = clean_url(url)
+    filename = f"downloads/{name}.mp4"
+    old_download(url, filename)
+    await send_vid(bot, m, caption, filename, "no", name, prog)
+   
 async def subscribe(app, message):
    update_channel = CHANNEL_ID
    url = await gen_link(app, update_channel)

@@ -19,11 +19,6 @@ from pyrogram.types import Message
 async def gen_link(app,chat_id):
    link = await app.export_chat_invite_link(chat_id)
    return link
-async def handle_upload(bot, m, url, name, caption, prog):
-    url = clean_url(url)
-    filename = f"downloads/{name}.mp4"
-    old_download(url, filename)
-    await send_vid(bot, m, caption, filename, "no", name, prog)
    
 async def subscribe(app, message):
    update_channel = CHANNEL_ID
@@ -55,10 +50,7 @@ def safe_float(value):
         return float(value)
     except:
         return 0.0
-def clean_url(url):
-    if "*" in url:
-        return url.split("*")[0]
-    return url
+
    
 def duration(filename):
     result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
@@ -88,7 +80,6 @@ async def aio(url,name):
                 await f.close()
     return k
 
-url = clean_url(url)
 async def download(url,name):
     ka = f'{name}.pdf'
     async with aiohttp.ClientSession() as session:
@@ -166,9 +157,10 @@ async def run(cmd):
     if stderr:
         return f'[stderr]\n{stderr.decode()}'
 
-
-    
-url = clean_url(url)
+def clean_url(url):
+    if "*" in url:
+        return url.split("*")[0]
+    return url
 def old_download(url, file_name, chunk_size = 1024 * 10):
     if os.path.exists(file_name):
         os.remove(file_name)
@@ -178,7 +170,11 @@ def old_download(url, file_name, chunk_size = 1024 * 10):
             if chunk:
                 fd.write(chunk)
     return file_name
-
+async def handle_upload(bot, m, url, name, caption, prog):
+    url = clean_url(url)
+    filename = f"downloads/{name}.mp4"
+    old_download(url, filename)
+    await send_vid(bot, m, caption, filename, "no", name, prog)
 
 def human_readable_size(size, decimal_places=2):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB', 'PB']:
@@ -194,7 +190,6 @@ def time_name():
     current_time = now.strftime("%H%M%S")
     return f"{date} {current_time}.mp4"
 
-url = clean_url(url)
 async def download_video(url,cmd, name):
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
     global failed_counter

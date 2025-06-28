@@ -55,7 +55,7 @@ async def upload(bot: Client, m: Message):
     input: Message = await bot.listen(editable.chat.id)
 
 if input.document or input.video or input.audio or input.photo:
-    x = await input.download()
+   x = await input.download()
 else:
     await m.reply_text("❌ File nahi mili! Please .txt ya .pdf file bhejiye.")
     return

@@ -170,7 +170,7 @@ async def upload(bot: Client, m: Message):
                 "accept-encoding": "gzip"
            }
 
-           params = {
+            params = {
                "url": url
            }
 

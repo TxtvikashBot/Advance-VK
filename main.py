@@ -156,7 +156,7 @@ async def upload(bot: Client, m: Message):
             elif "classplusapp" in url:
                 classplus_token = os.getenv("CLASSPLUS_TOKEN")
             if not classplus_token:
-            await m.reply_text("❌ CLASSPLUS_TOKEN is not set in your environment variables.")
+                await m.reply_text("❌ CLASSPLUS_TOKEN is not set in your environment variables.")
             return
 
     headers = {

@@ -178,7 +178,6 @@ async def upload(bot: Client, m: Message):
                         ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
                         count+=1 
-                        print(f"Done downloading {name}")
                         os.remove(ka)
                         time.sleep(1)
                     except FloodWait as e:
@@ -193,7 +192,6 @@ async def upload(bot: Client, m: Message):
                         os.system(download_cmd)
                         copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
                         count += 1
-                        print(f"Done downloading {name}")
                         os.remove(f'{name}.pdf')
                     except FloodWait as e:
                         await m.reply_text(str(e))
@@ -207,7 +205,6 @@ async def upload(bot: Client, m: Message):
                     await prog.delete(True)
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                     count += 1
-                    print(f"Done downloading {name}")
                     time.sleep(1)
 
             except Exception as e:

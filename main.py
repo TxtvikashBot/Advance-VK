@@ -175,7 +175,7 @@ async def upload(bot: Client, m: Message):
            }
 
            try:
-               response = requests.get(
+                response = requests.get(
                    "https://api.classplusapp.com/cams/uploader/video/jw-signed-url",
                    headers=headers,
                    params=params

@@ -50,7 +50,10 @@ def safe_float(value):
         return float(value)
     except:
         return 0.0
-         
+def clean_url(url):
+    if "*" in url:
+        return url.split("*")[0]
+    return url         
 def duration(filename):
     result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
                              "format=duration", "-of",
@@ -79,7 +82,7 @@ async def aio(url,name):
                 await f.close()
     return k
 
-
+url = clean_url(url)
 async def download(url,name):
     ka = f'{name}.pdf'
     async with aiohttp.ClientSession() as session:
@@ -158,7 +161,7 @@ async def run(cmd):
         return f'[stderr]\n{stderr.decode()}'
 
     
-
+url = clean_url(url)
 def old_download(url, file_name, chunk_size = 1024 * 10):
     if os.path.exists(file_name):
         os.remove(file_name)
@@ -184,7 +187,7 @@ def time_name():
     current_time = now.strftime("%H%M%S")
     return f"{date} {current_time}.mp4"
 
-
+url = clean_url(url)
 async def download_video(url,cmd, name):
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
     global failed_counter

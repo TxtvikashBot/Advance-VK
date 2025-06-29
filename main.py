@@ -94,7 +94,11 @@ Use /redeem <code>""")
                 "outtmpl": f"downloads/video_{i}{WATERMARK_TAG}.mp4",
                 "quiet": True,
                 "merge_output_format": "mp4",
+                "extractor_args": {
+                    'vimeo': {'access_token': 'YOUR_VIMEO_API_KEY'}
+                }
             }
+            
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([link])
             await m.reply_video(f"downloads/video_{i}{WATERMARK_TAG}.mp4", caption="✅ Downloaded with Warrior Watermark")

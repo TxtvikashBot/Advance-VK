@@ -103,7 +103,6 @@ Use /redeem <code>""")
                 "quiet": True,
                 "merge_output_format": "mp4",
                 }
-            }
             
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([link])

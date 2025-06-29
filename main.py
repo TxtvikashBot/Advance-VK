@@ -109,5 +109,9 @@ Use /redeem <code>""")
             await m.reply_video(f"downloads/video_{i}{WATERMARK_TAG}.mp4", caption="✅ Downloaded with Warrior Watermark")
         except Exception as e:
             await m.reply(f"❌ Failed to download link {i+1}: {e}")
+import os
+
+port = int(os.environ.get("PORT", 8080))
+app.run(host="0.0.0.0", port=port)
 
 bot.run()

@@ -110,12 +110,33 @@ Use /redeem <code>""")
         except Exception as e:
             await m.reply(f"❌ Failed to download link {i+1}: {e}")
             
-from threading import Thread
+from flask import Flask
+import threading
+
+app = Flask(__name__)
+
+# 1. Yahan root endpoint paste karein
+@app.route("/", methods=["GET", "HEAD"])
+def index():
+    return "Bot Service Running!", 200
+
+# ... aapke dusre Flask ya bot ke functions ...
 
 def run_flask():
+    import os
+    port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
 
-if __name__ == "__main__":
-    Thread(target=run_flask).start()
-    bot.run()
+def run_bot():
+    # Yahan aapka bot start hone wala code
+    pass  # Replace with your actual bot start code
 
+# 2. Program ke end/main par ye paste karein
+if __name__ == "__main__":
+    flask_thread = threading.Thread(target=run_flask)
+    flask_thread.start()
+
+    bot_thread = threading.Thread(target=run_bot)
+    bot_thread.start()
+    
+bot.run()

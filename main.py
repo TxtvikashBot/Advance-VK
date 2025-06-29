@@ -5,6 +5,8 @@ import os, json, datetime, re
 from vars import API_ID, API_HASH, BOT_TOKEN, ADMIN_ID, PRICE, DAYS, WATERMARK_TAG
 import yt_dlp
 from pyrogram import Client
+from flask import Flask
+app = Flask(__name__)
 
 bot = Client(
     "bot",

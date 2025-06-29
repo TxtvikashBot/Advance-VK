@@ -1,7 +1,7 @@
 # Don't Remove Credit Tg - @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
 # Ask Doubt on telegram @KingVJ01
-
+from keep_alive import keep_alive
 import os
 import re
 import sys
@@ -11,7 +11,6 @@ import asyncio
 import aiohttp
 import requests
 import subprocess
-from keep_alive import keep_alive
 import core as helper
 from utils import progress_bar
 from vars import API_ID, API_HASH, BOT_TOKEN
@@ -39,21 +38,21 @@ bot = Client(
 
 from pyrogram import Client, filters
 import os
-
+from keep_alive import keep_alive
+keep_alive
 # Load credentials from env
 API_ID = int(os.getenv("API_ID"))
 API_HASH = os.getenv("API_HASH")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 # Define Telegram app
-app = Client("drm_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 # Command Handler
-@app.on_message(filters.command("drm") & filters.private)
-async def handle_drm(client, message):
-    await message.reply("✅ DRM command received!")
+@app.on_message()
+async def handler(client, message):
+    await message.reply("🤖 Bot is alive!")
 
-# Run the bot
 app.run()
 
 @bot.on_message(filters.command(["start"]))

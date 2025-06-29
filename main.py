@@ -72,8 +72,8 @@ async def handle_txt(_, m: Message):
     users = load_users()
     uid = str(m.from_user.id)
     if uid not in users:
-        return await m.reply("⛔ You need Premium to use this feature.
-Use /redeem <code>")
+        return await m.reply("""⛔ You need Premium to use this feature.
+Use /redeem <code>""")
 
     doc = m.document
     if not doc.file_name.endswith(".txt"):

@@ -134,9 +134,5 @@ def run_bot():
 # 2. Program ke end/main par ye paste karein
 if __name__ == "__main__":
     flask_thread = threading.Thread(target=run_flask)
-    flask_thread.start()
-
-    bot_thread = threading.Thread(target=run_bot)
-    bot_thread.start()
-    
-bot.run()
+    flask_thread.start() 
+    bot.run()

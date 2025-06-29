@@ -62,8 +62,8 @@ async def redeem(_, m: Message):
             json.dump(users, f1, indent=2)
         with open("redeem_codes.json", "w") as f2:
             json.dump(codes, f2, indent=2)
-        await m.reply(f"✅ Code Applied: {code}
-🎉 Premium Unlocked till {exp}")
+        await m.reply(f"""✅ Code Applied: {code}
+🎉 Premium Unlocked till {exp}""")
     else:
         await m.reply("❌ Invalid or already used redeem code.")
 

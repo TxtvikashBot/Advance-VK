@@ -11,7 +11,7 @@ import asyncio
 import aiohttp
 import requests
 import subprocess
-
+from keep_alive import keep_alive
 import core as helper
 from utils import progress_bar
 from vars import API_ID, API_HASH, BOT_TOKEN
@@ -264,6 +264,6 @@ async def upload(bot: Client, m: Message):
     await m.reply_text("**𝔻ᴏɴᴇ 𝔹ᴏ𝕤𝕤😎**")
 
 if __name__ == "__main__":
-    from keep_alive import keep_alive
-    keep_alive()  # starts flask server at port 8080
+    
+    keep_alive()  
     bot.run()     # starts telegram bot

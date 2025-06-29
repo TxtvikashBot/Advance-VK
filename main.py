@@ -34,11 +34,11 @@ async def profile(_, m: Message):
     uid = str(m.from_user.id)
     if uid in users:
         exp = users[uid]["expires"]
-        await m.reply(f"👤 Your Profile:
+        await m.reply(f"""👤 Your Profile:
 
 🆔 User ID: {uid}
 💼 Status: Premium
-⏳ Expires: {exp}")
+⏳ Expires: {exp}""")
     else:
         await m.reply("🆔 User ID: {}
 💼 Status: Free User

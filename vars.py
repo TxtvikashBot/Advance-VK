@@ -1,6 +1,6 @@
 
 BOT_TOKEN = "YOUR_BOT_TOKEN"
-ADMIN_ID = Technicalboyv
+ADMIN_ID = 1304973931
 PRICE = 100
 DAYS = 7
 WATERMARK_TAG = "_TechnicalUploader"

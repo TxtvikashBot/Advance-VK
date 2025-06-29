@@ -1,12 +1,12 @@
 from flask import Flask
-import os
 from threading import Thread
+import os
 
 app = Flask(__name__)
 
 @app.route('/')
-def home():
-    return "Bot is running!"
+def index():
+    return "✅ Bot is running on Render!"
 
 def run():
     port = int(os.environ.get("PORT", 10000))

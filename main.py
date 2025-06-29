@@ -36,10 +36,6 @@ bot = Client(
     bot_token=BOT_TOKEN
 )
 
-from pyrogram import Client, filters
-import os
-from keep_alive import keep_alive
-keep_alive
 # Load credentials from env
 API_ID = int(os.getenv("API_ID"))
 API_HASH = os.getenv("API_HASH")

@@ -42,7 +42,7 @@ async def profile(_, m: Message):
     else:
         await m.reply("🆔 User ID: {}
 💼 Status: Free User
-⛔ No active premium plan.".format(uid))
+⛔ No active premium plan.".format(uid)")
 
 @bot.on_message(filters.command("redeem"))
 async def redeem(_, m: Message):

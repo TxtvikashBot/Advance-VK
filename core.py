@@ -10,7 +10,7 @@ import tgcrypto
 import subprocess
 import concurrent.futures
 import core as helper
-from core import handle_upload
+
 from utils import progress_bar
 from vars import CHANNEL_ID
 from pyrogram import Client, filters

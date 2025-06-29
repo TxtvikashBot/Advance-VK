@@ -2,10 +2,17 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 import os, json, datetime, re
-from vars import BOT_TOKEN, ADMIN_ID, PRICE, DAYS, WATERMARK_TAG
+from vars import API_ID, API_HASH, BOT_TOKEN, ADMIN_ID, PRICE, DAYS, WATERMARK_TAG
 import yt_dlp
+from pyrogram import Client
 
-bot = Client("warrior_txt_handler", bot_token=BOT_TOKEN)
+bot = Client(
+    "bot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN)
+
+Clienbot = Client("warrior_txt_handler", bot_token=BOT_TOKEN)
 
 def load_users():
     try:
@@ -94,8 +101,6 @@ Use /redeem <code>""")
                 "outtmpl": f"downloads/video_{i}{WATERMARK_TAG}.mp4",
                 "quiet": True,
                 "merge_output_format": "mp4",
-                "extractor_args": {
-                    'vimeo': {'access_token': 'YOUR_VIMEO_API_KEY'}
                 }
             }
             
